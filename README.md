@@ -28,6 +28,15 @@
 
 ---
 
+---
+
+## 🔑 Requisitos
+
+- Python > 8.
+- Dependências listadas dentro do requirements.txt.
+
+---
+
 ## ⚙️ Instalação
 
 ### 🪟 Windows
