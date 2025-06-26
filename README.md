@@ -28,8 +28,6 @@
 
 ---
 
----
-
 ## 🔑 Requisitos
 
 - Python > 8.
