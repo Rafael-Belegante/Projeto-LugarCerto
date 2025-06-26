@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Gerenciar Objetos</h2>
+
+<h3>Novo Objeto</h3>
+<form method="post" enctype="multipart/form-data" action="{{ url_for('admin.criar_objeto') }}">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="text" name="descricao" placeholder="Tamanho, cor, etc..." required>
+    <input type="text" name="local_encontrado" placeholder="Local encontrado" required>
+    <input type="file" name="imagem">
+    <button type="submit">Cadastrar</button>
+</form>
+
+<h3>Objetos Cadastrados</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Local</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in objetos %}
+        <tr>
+            <form method="post" action="{{ url_for('admin.editar_objeto', objeto_id=obj.id) }}">
+                <td><input type="text" name="nome" value="{{ obj.nome }}" required></td>
+                <td><input type="text" name="descricao" value="{{ obj.descricao }}" required></td>
+                <td><input type="text" name="local_encontrado" value="{{ obj.local_encontrado }}" required></td>
+                <td>{{ obj.status }}</td>
+                <td style="white-space: nowrap;">
+                    <button type="submit" class="btn-salvar">Salvar</button>
+            </form>
+            <form method="post" action="{{ url_for('admin.excluir_objeto', objeto_id=obj.id) }}" style="display:inline;">
+                <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este objeto?')">Excluir</button>
+            </form>
+                </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

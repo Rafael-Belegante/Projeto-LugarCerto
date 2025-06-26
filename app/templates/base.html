@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>LugarCerto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>LugarCerto</h2>
+            {% if current_user.is_authenticated %}
+                <p><strong>{{ current_user.nome }}</strong></p>
+                <ul>
+                    <li><a href="{{ url_for('objeto.index') }}">Mural</a></li>
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('admin.listar_usuarios') }}">Gerenciar Usuários</a></li>
+                        <li><a href="{{ url_for('admin.listar_objetos') }}">Gerenciar Objetos</a></li>
+                        <li><a href="{{ url_for('admin.historico_objetos') }}">Histórico</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('objeto.reivindicacoes') }}">Minhas Requisições</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('auth.logout') }}">Sair</a></li>
+                </ul>
+            {% else %}
+                <ul>
+                    <li><a href="{{ url_for('objeto.index') }}">Mural</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('auth.registrar') }}">Registrar</a></li>
+                </ul>
+            {% endif %}
+        </aside>
+        <main class="main-content">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flash">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+            {% block conteudo %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- Modal para exibir imagem em tamanho grande -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">×</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <!-- Script do modal -->
+    <script>
+        // Espera 5 segundos e remove os flashes
+         setTimeout(function () {
+            const flash = document.querySelector('.flash');
+            if (flash) {
+              flash.style.transition = 'opacity 0.5s ease';
+              flash.style.opacity = '0';
+              setTimeout(() => flash.remove(), 500); // remove do DOM depois da transição
+            }
+          }, 5000);
+
+        function openModal(src) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            modal.style.display = "block";
+            modalImg.src = src;
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        // Impede clique no X de fechar de também ativar o fechamento pelo modal em si
+        document.querySelector('.modal-close').addEventListener('click', function (event) {
+            event.stopPropagation();
+        });
+    </script>
+</body>
+</html>

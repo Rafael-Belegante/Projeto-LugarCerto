@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Minhas Reivindicações</h2>
+
+{% if reivindicacoes %}
+<div class="card-grid">
+    {% for r in reivindicacoes %}
+    <div class="card">
+        {% if r.objeto.imagem %}
+            <img src="{{ url_for('static', filename='imagens/' + r.objeto.imagem) }}" alt="Imagem do objeto" onclick="openModal(this.src)">
+        {% else %}
+            <img src="{{ url_for('static', filename='no-image.png') }}" alt="Sem imagem" onclick="openModal(this.src)">
+        {% endif %}
+        <h3>{{ r.objeto.nome }}</h3>
+        <p>{{ r.objeto.descricao }}</p>
+        <p><strong>Status da Solicitação:</strong> {{ r.status }}</p>
+        <p><strong>Local encontrado:</strong> {{ r.objeto.local_encontrado }}</p>
+        <p><strong>Data da solicitação:</strong> {{ r.data.strftime('%d/%m/%Y %H:%M') }}</p>
+        <p><strong>Data da resposta:</strong> {{ r.data_resposta }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>Você ainda não reivindicou nenhum objeto.</p>
+{% endif %}
+{% endblock %}

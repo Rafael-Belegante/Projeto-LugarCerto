@@ -1,0 +1,8 @@
+psycopg2
+Flask
+Flask-SQLAlchemy
+Flask-Login
+SQLAlchemy
+python-dotenv
+Pillow
+Werkzeug

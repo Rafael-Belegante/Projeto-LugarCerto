@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Objetos Encontrados</h2>
+
+{% if objetos %}
+<div class="card-grid">
+    {% for obj in objetos %}
+    <div class="card">
+        {% if obj.imagem %}
+            <img src="{{ url_for('static', filename='imagens/' + obj.imagem) }}" alt="Imagem do objeto" onclick="openModal(this.src)">
+        {% else %}
+            <img src="{{ url_for('static', filename='no-image.png') }}" alt="Sem imagem" onclick="openModal(this.src)">
+        {% endif %}
+        <div class="card-info">
+            <h3>{{ obj.nome }}</h3>
+            <p>{{ obj.descricao }}</p>
+            <p><strong>Achado em:</strong> {{ obj.local_encontrado }}</p>
+            <p><strong>Publicado em:</strong> {{ obj.data_encontrado.strftime('%d/%m/%Y %H:%M') }}</p>
+            <p><strong>Status:</strong> {{ obj.status }}</p>
+
+            {% set reivindicacao_pendente = obj.reivindicacoes | selectattr('status', 'equalto', 'Pendente') | list | first %}
+            {% if reivindicacao_pendente %}
+                <p><strong>Reivindicado por:</strong> {{ reivindicacao_pendente.usuario.nome }}</p>
+            {% endif %}
+
+            {% if current_user.is_authenticated and not current_user.is_admin and obj.status == 'Disponível' %}
+            <form action="{{ url_for('objeto.reivindicar', objeto_id=obj.id) }}" method="post">
+                <button type="submit">Reivindicar</button>
+            </form>
+            {% elif obj.status == 'Pendente' and current_user.is_admin %}
+                {% for reivindicacao in obj.reivindicacoes %}
+                    {% if reivindicacao.status == 'Pendente' %}
+                        <form action="{{ url_for('admin.aprovar', reivindicacao_id=reivindicacao.id) }}" method="post" style="display:inline;">
+                            <button type="submit">Aprovar</button>
+                        </form>
+                        <form action="{{ url_for('admin.rejeitar', reivindicacao_id=reivindicacao.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn-rejeitar">Rejeitar</button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>Nenhum objeto perdido foi encontrado por enquanto.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+Pinokio.AI - Youtube
+https://pinokio-home.netlify.app/
+
+Wan 2.1 - Causvid
+Uno
+FluxGym
+
+FaceFusion:
+https://www.youtube.com/watch?v=Uy-TpMOYRaY&ab_channel=HowToIn5Minutes
+https://www.youtube.com/watch?v=0dOxgusT9dU&ab_channel=HojenaIA
+
+https://www.youtube.com/@HowToIn5Minutes/videos
+
+
+
+
+
+
+
+
+
+
+Lovable.dev - Criar sites conversando
+Bom pedir pro chat antes formatar um prompt certinho. Exemplo:
+"
+Crie um prompt para que eu possa usar no LOVABLE.DEV.
+O projeto que quero criar é um site de achados e perdidos (LugarCerto).
+
+Usuário acessa o site e visualiza o mural com os objetos encontrados, podendo selecionar um objeto e reivindicar (fazendo login quase ainda não tenha feito), e assim que reivindica o Sistema registra a reivindicação com status "Pendente".
+Já o administrador acessa o site e também vê o mural, porém ele tem mais opções (Gerenciar Usuários, Gerenciar Objetos), ele pode visualizar reivindicações e aprovar ou rejeitar, assim o sistema atualiza status da reivindicação e o usuário é notificado
+
+Para o UI Design quero um site clean, minimalista, flat, e com essas cores na paleta:
+#C3DFE0 > #005CA9 > #00008B > #1C0B19 > #FFBC42
+"

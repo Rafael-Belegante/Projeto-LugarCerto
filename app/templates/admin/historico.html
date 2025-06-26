@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Histórico dos Objetos Encontrados</h2>
+
+{% if objetos %}
+<div class="card-grid">
+    {% for obj in objetos %}
+        {% set reivindicacao_aprovada = obj.reivindicacoes | selectattr('status', 'equalto', 'Aprovada') | list | first %}
+        <div class="card">
+            {% if obj.imagem %}
+                <img src="{{ url_for('static', filename='imagens/' + obj.imagem) }}" alt="Imagem do objeto" onclick="openModal(this.src)">
+            {% else %}
+                <img src="{{ url_for('static', filename='no-image.png') }}" alt="Sem imagem" onclick="openModal(this.src)">
+            {% endif %}
+            <div class="card-info">
+                <h3>{{ obj.nome }}</h3>
+                <p>{{ obj.descricao }}</p>
+                <p><strong>Achado em:</strong> {{ obj.local_encontrado }}</p>
+                <p><strong>Publicado em:</strong> {{ obj.data_encontrado.strftime('%d/%m/%Y %H:%M') }}</p>
+                <p><strong>Dono do objeto:</strong> {{ reivindicacao_aprovada.usuario.nome }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% else %}
+    <p>Você ainda não reivindicou nenhum objeto.</p>
+{% endif %}
+{% endblock %}

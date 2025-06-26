@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<h2>Gerenciar Usuários</h2>
+
+<h3>Novo Usuário</h3>
+<form method="post" autocomplete="off" action="{{ url_for('admin.criar_usuario') }}">
+    <input type="text" name="nome" placeholder="Nome" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="senha" placeholder="Senha" required>
+    <label><input type="checkbox" name="is_admin"> Administrador</label>
+    <button type="submit">Criar</button>
+</form>
+
+<h3>Usuários Existentes</h3>
+<div class="table-container">
+<table>
+    <tr>
+        <th>Nome</th><th>Email</th><th>Tipo</th><th>Status</th><th>Alterar Senha</th><th>Ações</th>
+    </tr>
+    {% for u in usuarios %}
+    <tr>
+        <form method="post" autocomplete="off" action="{{ url_for('admin.editar_usuario', usuario_id=u.id) }}">
+            <td><input type="text" name="nome" value="{{ u.nome }}"></td>
+            <td><input type="email" name="email" value="{{ u.email }}"></td>
+            <td>
+                <label><input type="checkbox" name="is_admin" {% if u.is_admin %}checked{% endif %}> Admin</label>
+            </td>
+            <td>
+                {% if u.aprovado %}
+                    <span style="color:green;">Aprovado</span>
+                {% else %}
+                    <span style="color:red;">Pendente</span>
+                {% endif %}
+            </td>
+            <td>
+                <input type="text" name="senha" placeholder="Nova senha">
+            </td>
+        </form>
+        <td>
+            {% if u.aprovado %}
+            <button type="submit" class="btn-salvar">Salvar</button>
+            <form method="post" action="{{ url_for('admin.excluir_usuario', usuario_id=u.id) }}" style="display:inline;">
+                <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este usuário?')">Excluir</button>
+            </form>
+
+            {% elif not u.aprovado %}
+            <form method="post" action="{{ url_for('admin.aprovar_usuario', usuario_id=u.id) }}" style="display:inline;">
+                <button type="submit" style="color:green;">Aprovar</button>
+            </form>
+            <form method="post" action="{{ url_for('admin.rejeitar_usuario', usuario_id=u.id) }}" style="display:inline;">
+                <button type="submit" style="color:red;">Rejeitar</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
