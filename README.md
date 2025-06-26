@@ -30,8 +30,8 @@
 
 ## 🔑 Requisitos
 
-- Python > 8.
-- Dependências listadas dentro do requirements.txt.
+- Python >= 3.8
+- Dependências listadas no requirements.txt
 
 ---
 
